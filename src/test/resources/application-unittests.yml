@@ -9,6 +9,5 @@ logging:
   #    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   level:
     root: INFO
-    org.springframework: WARN
-    org.springframework.test: WARN
+    org.springframework: OFF
     com.element: INFO

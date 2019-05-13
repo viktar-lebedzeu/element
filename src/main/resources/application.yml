@@ -14,3 +14,31 @@ spring:
 server:
   port: 8080
 
+element:
+  insurance:
+    name: "Insurance configuration"
+    modules:
+
+      bike:
+        coverage:
+          min: 0
+          max: 3000
+        risk: 0.3
+
+      jewelry:
+        coverage:
+          min: 500
+          max: 10000
+        risk: 0.05
+
+      electronics:
+        coverage:
+          min: 500
+          max: 6000
+        risk: 0.35
+
+      sports-equipment:
+        coverage:
+          min: 0
+          max: 20000
+        risk: 0.3
