@@ -1,6 +1,8 @@
 package com.element.testapp.service;
 
 import com.element.testapp.config.InsuranceConfiguration;
+import com.element.testapp.dto.CoverageRequest;
+import com.element.testapp.dto.PriceResponse;
 import com.element.testapp.module.InsuranceModule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -59,5 +61,61 @@ public class ModulesServiceTest {
 
         // Restoring previous values
         configuration.setModules(savedModules);
+    }
+
+    @Test
+    public void testCalculatePrice() {
+        CoverageRequest request = new CoverageRequest().addModule("bike", 1000L);
+        checkCalculatedPrice(request, service.calculatePrice(request), 300.0, 0);
+
+        request = new CoverageRequest().addModule("bike", 5000L);
+        checkCalculatedPrice(request, service.calculatePrice(request), 0.0, 1);
+
+        request = new CoverageRequest().addModule("bike", -100L);
+        checkCalculatedPrice(request, service.calculatePrice(request), 0.0, 1);
+
+        request = new CoverageRequest().addModule("bike", null);
+        checkCalculatedPrice(request, service.calculatePrice(request), 0.0, 1);
+
+        CoverageRequest emptyRequest = new CoverageRequest();
+        checkCalculatedPrice(emptyRequest, service.calculatePrice(null), 0.0, 0);
+
+        CoverageRequest requestWithoutModules = new CoverageRequest();
+        requestWithoutModules.setModules(null);
+        checkCalculatedPrice(emptyRequest, service.calculatePrice(requestWithoutModules), 0.0, 0);
+        checkCalculatedPrice(emptyRequest, service.calculatePrice(emptyRequest), 0.0, 0);
+
+        request = new CoverageRequest()
+                .addModule("bike", 2000L) // 600
+                .addModule("jewelry", 8000L) // 400
+                .addModule("electronics", 6000L) // 2100
+                .addModule("sports-equipment", 15000L) // 4500
+                .addModule("incorrect-module-id", 100000L) // -
+        ;
+        checkCalculatedPrice(request, service.calculatePrice(request), 7600.0, 1);
+
+        // Saving previous values
+        final Map<String, InsuranceModule> savedModules = configuration.getModules();
+
+        configuration.setModules(null);
+        checkCalculatedPrice(request, service.calculatePrice(request), 0.0, 5);
+
+        // Restoring previous values
+        configuration.setModules(savedModules);
+    }
+
+    /**
+     * Auxiliary method to check request, response and expected values
+     * @param request Request
+     * @param response Reponse for checking
+     * @param expectedTotalPrice Expected total price
+     * @param expectedErrors Expected errors count
+     */
+    private static void checkCalculatedPrice(CoverageRequest request, PriceResponse response,
+                                             Double expectedTotalPrice, int expectedErrors) {
+        Assert.assertNotNull(response);
+        Assert.assertEquals(request.getModules().size(), response.getRecords().size());
+        Assert.assertEquals(expectedTotalPrice, response.getTotalPrice(), 5);
+        Assert.assertEquals(expectedErrors, response.getErrorsCount());
     }
 }

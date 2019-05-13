@@ -52,11 +52,11 @@ public class ModulesService {
         PriceResponse response = new PriceResponse();
         final Map<String, InsuranceModule> modules = configuration.getModules();
         // Skipping wrong request values
-        if (request != null && request.getModules() != null && !request.getModules().isEmpty() && modules != null) {
+        if (request != null && request.getModules() != null && !request.getModules().isEmpty()) {
             request.getModules().forEach((moduleId, selectedCoverage) -> {
 
                 // checking for correct module Id
-                if (modules.containsKey(moduleId)) {
+                if (modules != null && modules.containsKey(moduleId)) {
                     final InsuranceModule module = modules.get(moduleId);
 
                     if (selectedCoverage == null) {
