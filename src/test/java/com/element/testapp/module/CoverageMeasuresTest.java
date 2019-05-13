@@ -59,4 +59,12 @@ public class CoverageMeasuresTest {
         Assert.assertTrue(measures.checkCoverage(Long.MIN_VALUE));
         Assert.assertTrue(measures.checkCoverage(Long.MAX_VALUE));
     }
+
+    @Test
+    public void testMeasuresString() {
+        Assert.assertEquals("[null, null]", new CoverageMeasures().measuresString());
+        Assert.assertEquals("[-123, null]", new CoverageMeasures(-123L, null).measuresString());
+        Assert.assertEquals("[null, 123]", new CoverageMeasures(null, 123L).measuresString());
+        Assert.assertEquals("[-123, 123]", new CoverageMeasures(-123L, 123L).measuresString());
+    }
 }
