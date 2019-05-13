@@ -1,0 +1,16 @@
+logging:
+  #  pattern:
+  #    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  #    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: ERROR
+    org:
+      springframework: OFF
+
+spring:
+  application:
+    name: element-test-app
+
+server:
+  port: 8080
+
