@@ -41,16 +41,23 @@ public class ModulesServiceTest {
     @Test
     public void testEmptyAvailableModules() {
         // Saving previous values
-        final Map<String, InsuranceModule> saveModules = configuration.getModules();
+        final Map<String, InsuranceModule> savedModules = configuration.getModules();
 
         configuration.setModules(new HashMap<>());
-        final List<InsuranceModule> modules = service.getAvailableModules();
+        List<InsuranceModule> modules = service.getAvailableModules();
         Assert.assertEquals(0, modules.size());
 
-        final List<String> moduleIds = modules.stream().map(InsuranceModule::getId).collect(Collectors.toList());
+        List<String> moduleIds = modules.stream().map(InsuranceModule::getId).collect(Collectors.toList());
+        Assert.assertEquals("[]", StringUtils.join(moduleIds));
+
+        configuration.setModules(null);
+        modules = service.getAvailableModules();
+        Assert.assertEquals(0, modules.size());
+
+        moduleIds = modules.stream().map(InsuranceModule::getId).collect(Collectors.toList());
         Assert.assertEquals("[]", StringUtils.join(moduleIds));
 
         // Restoring previous values
-        configuration.setModules(saveModules);
+        configuration.setModules(savedModules);
     }
 }

@@ -21,7 +21,7 @@ public class InsuranceConfiguration implements InitializingBean {
     /** Insurance module settings */
     private Map<String, InsuranceModule> modules;
 
-
+    /** Configuration name (optional) */
     private String name;
 
     @Override

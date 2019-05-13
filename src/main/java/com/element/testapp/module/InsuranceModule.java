@@ -29,7 +29,9 @@ public class InsuranceModule {
     public double getPrice(long value) {
         if (!checkCoverageValue(value)) {
             log.error("The coverage value {} is not correct for {} measures", value, coverage.measuresString());
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException(
+                    "The coverage value " + value +
+                    " is not correct for " + coverage.measuresString() + " measures");
         }
         return ((double) value * risk);
     }
