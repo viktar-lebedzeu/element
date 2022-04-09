@@ -23,7 +23,7 @@
 		<java.version>1.8</java.version>
 
 		<!-- Spring framework versions -->
-		<spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+		<spring.boot.version>2.5.12</spring.boot.version>
 
 		<!-- 3rd party libraries versions -->
 		<lombok.version>1.18.6</lombok.version>
